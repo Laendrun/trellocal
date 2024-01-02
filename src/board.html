@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+		<title>Trellocal</title>
+		<!--Import Google Icon Font-->
+		<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+		<link rel="stylesheet" href="css/font.css">
+		<!--Import materialize.css-->
+		<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link type="text/css" rel="stylesheet" href="css/board.css"  media="screen,projection"/>
+	</head>
+	<body>
+		<div id="board">
+			<!-- I need to have 3 lists (columns) next to each other 
+			     each of these must have a title -->
+				<div class="lists">
+					<div class="list">
+						<p class="list-title">Todo</p>
+						<div class="list-elements">
+							<div class="list-element" draggable="true" id="element-1">
+								<p class="list-element-title">Element 1</p>
+							</div>
+						</div>
+					</div>
+					<div class="list">
+						<p class="list-title">Doing</p>
+						<div class="list-elements">
+							<div class="list-element" draggable="true" id="element-2">
+								<p class="list-element-title">Element 2</p>
+							</div>
+						</div>
+					</div>
+					<div class="list">
+						<p class="list-title">Done</p>
+					</div>
+				 </div>
+		</div>
+		<!--JavaScript at end of body for optimized loading-->
+		<script type="text/javascript" src="js/materialize.js"></script>
+		<script src="./renderers/board-renderer.js"></script>
+	</body>
+</html>
