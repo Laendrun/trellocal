@@ -1,6 +1,7 @@
 const {app, dialog, BrowserWindow, ipcMain} = require('electron')
 const fs = require('fs')
 const path = require('path')
+const { v4: uuidv4 } = require('uuid');
 
 const createWindow = () => {
 	const win = new BrowserWindow({
@@ -108,5 +109,9 @@ app.whenReady().then(() => {
 		})
 
 		mainWindow.close()
+	})
+
+	ipcMain.handle('getId', () => {
+		return uuidv4();
 	})
 })

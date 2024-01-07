@@ -16,30 +16,31 @@
 	</head>
 	<body>
 		<div id="board">
-			<!-- I need to have 3 lists (columns) next to each other 
-			     each of these must have a title -->
-				<div class="lists">
-					<div class="list">
-						<p class="list-title">Todo</p>
-						<div class="list-elements">
-							<div class="list-element" draggable="true" id="element-1">
-								<p class="list-element-title">Element 1</p>
-							</div>
-						</div>
-					</div>
-					<div class="list">
-						<p class="list-title">Doing</p>
-						<div class="list-elements">
-							<div class="list-element" draggable="true" id="element-2">
-								<p class="list-element-title">Element 2</p>
-							</div>
-						</div>
-					</div>
-					<div class="list">
-						<p class="list-title">Done</p>
-					</div>
-				 </div>
+			<div class="lists">
+				<div class="list" id="new-list">
+					<p class="new-list-title">Add new list</p>
+				</div>
+			</div>
 		</div>
+
+		<template id="list-template">
+			<div class="list">
+				<p class="list-title">Title</p>
+				<div class="list-elements">
+
+				</div>
+				<div class="list-add-new">
+					<p class="list-add-new-text">Add new element</p>
+				</div>
+			</div>
+		</template>
+
+		<template id="list-element-template">
+			<div class="list-element" draggable="true" id="element-1">
+				<p class="list-element-title">Element</p>
+			</div>
+		</template>
+
 		<!--JavaScript at end of body for optimized loading-->
 		<script type="text/javascript" src="js/materialize.js"></script>
 		<script src="./renderers/board-renderer.js"></script>
