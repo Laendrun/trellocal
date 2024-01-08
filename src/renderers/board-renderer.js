@@ -1,6 +1,6 @@
-// DRAG N DROP FUNCTIONALITY ==================================================================================
-
 // https://stackoverflow.com/questions/28203585/prevent-drop-inside-a-child-element-when-drag-dropping-with-js
+
+const board = {};
 
 const allowDrop = (e) => {
 	e.preventDefault();
@@ -14,32 +14,54 @@ const drop = (e, el) => {
 	e.preventDefault();
 	const data = e.dataTransfer.getData("id");
 	const element = document.getElementById(data);
-	console.log(data)
-	console.log(element);
 	const listElements = el.querySelector('.list-elements');
 	listElements.appendChild(element);
 }
 
-const addListEvents = () => {
-	const lists = document.querySelectorAll('.list');
+const addListEvents = (listId) => {
+	const list = document.querySelector(`#${listId}`);
 
-	for (let i = 0; i < lists.length - 1; i++) {
-		lists[i].addEventListener('drop', (e) => drop(e, lists[i]));
-		lists[i].addEventListener('dragover', (e) => allowDrop(e));
-	}
+	list.addEventListener('dragover', (e) => allowDrop(e));
+	list.addEventListener('drop', (e) => drop(e, list));
+
+	const listTitle = list.querySelector('.list-title');
+	listTitle.addEventListener('click', (e) => {
+		listTitle.setAttribute('contenteditable', 'true');
+		listTitle.focus();
+	})
+	listTitle.addEventListener('mouseout', (e) => {
+		listTitle.setAttribute('contenteditable', 'false');
+	})
+	listTitle.addEventListener('keypress', (e) => {
+		if (e.key === 'Enter') {
+			listTitle.setAttribute('contenteditable', 'false');
+		}
+	})
 }
 
-const addElementEvents = () => {
-	const listElements = document.querySelectorAll('.list-element');
-
-	for (const listElement of listElements) {
-		listElement.addEventListener('dragstart', (e) => drag(e));
-		listElement.addEventListener('dragover', (e) => false);
-		listElement.addEventListener('drop', (e) => false);
-	}
+const addElementEvents = (elementId) => {
+	const newElement = document.querySelector(`#${elementId}`);
+	newElement.addEventListener('dragstart', (e) => drag(e));
+	newElement.addEventListener('dragover', (e) => false);
+	newElement.addEventListener('drop', (e) => false);
+	const elementTitle = newElement.querySelector('.list-title-text');
+	elementTitle.addEventListener('click', (e) => {
+		elementTitle.setAttribute('contenteditable', 'true');
+		elementTitle.focus();
+	})
+	elementTitle.addEventListener('mouseout', (e) => {
+		elementTitle.setAttribute('contenteditable', 'false');
+	})
+	elementTitle.addEventListener('keypress', (e) => {
+		if (e.key === 'Enter') {
+			elementTitle.setAttribute('contenteditable', 'false');
+		}
+	})
+	const editIcon = newElement.querySelector('.list-element-edit-icon');
+	editIcon.addEventListener('click', (e) => {
+		console.log('edit icon clicked')
+	})
 }
-
-// =============================================================================================================
 
 const addNewElementEvent = (listId) => {
 	const list = document.querySelector(`#${listId}`);
@@ -51,7 +73,7 @@ const addNewElementEvent = (listId) => {
 		const elementId = await window.trellocal.getId();
 		newElement.querySelector('.list-element').setAttribute('id', `element-${elementId}`);
 		listElements.appendChild(newElement);
-		addElementEvents();
+		addElementEvents(`element-${elementId}`);
 	})
 }
 
@@ -67,10 +89,6 @@ newListDiv.addEventListener('click', async () => {
 	newList.querySelector('.list').setAttribute('id', `list-${listId}`);
 	listContainer.insertBefore(newList, newListDiv)
 
-	addListEvents();
+	addListEvents(`list-${listId}`);
 	addNewElementEvent(`list-${listId}`);
-	addElementEvents();
 });
-
-addListEvents();
-addElementEvents();
