@@ -1,6 +1,5 @@
 const ping = async () => {
 	const response = await window.trellocal.ping()
-	console.log(response)
 }
 ping()
 
