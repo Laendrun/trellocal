@@ -25,14 +25,25 @@ app.on('window-all-closed', () => {
 	}
 })
 
+const saveChanges = async (board, msg) => {
+	// Convert data to JSON
+	const jsonData = JSON.stringify(board);
+
+	// Save to a file (replace 'path/to/your/file.json' with your desired file path)
+	fs.writeFile(`${BOARD_PATH}/board.json`, jsonData, (err) => {
+		if (err) {
+			console.error('Error saving data:', err);
+		} else {
+			console.log('Data saved from: ', msg);
+		}
+	});
+}
+
 app.whenReady().then(() => {
 	const mainWindow = createWindow()
 	mainWindow.loadFile('src/index.html')
 	let config;
 
-	// try to read trellocal config file
-	// if it exists, load it
-	// if it doesn't, create it
 	const configRootPath = path.join(app.getPath('userData'), '.trellocal.config')
 	if (fs.existsSync(configRootPath)) {
 		config = JSON.parse(fs.readFileSync(configRootPath, 'utf-8'))
@@ -49,6 +60,10 @@ app.whenReady().then(() => {
 		if (BrowserWindow.getAllWindows().length === 0) {
 			createWindow()
 		}
+	})
+
+	ipcMain.handle('change', async (event, board, msg) => {
+		await saveChanges(board, msg);
 	})
 
 	ipcMain.handle('ping', () => {
