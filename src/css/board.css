@@ -21,6 +21,23 @@
 	overflow-x: hidden;
 }
 
+.list-element-title {
+	display: flex;
+	justify-content: space-between;
+}
+
+.list-title-text {
+	margin: 0.1rem;
+	padding: 0.1rem;
+	border: 1px solid #ccc;
+	border-radius: 0.5rem;
+}
+
+.list-element-edit-icon {
+	font-size: 1.4rem;
+}
+
+
 .list-title {
 	margin: 0;
 	padding: 0;

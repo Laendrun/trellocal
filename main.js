@@ -3,6 +3,9 @@ const fs = require('fs')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid');
 
+let BOARD_PATH;
+let BOARD;
+
 const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 800,
@@ -22,15 +25,25 @@ app.on('window-all-closed', () => {
 	}
 })
 
+const saveChanges = async (board, msg) => {
+	// Convert data to JSON
+	const jsonData = JSON.stringify(board);
+
+	// Save to a file (replace 'path/to/your/file.json' with your desired file path)
+	fs.writeFile(`${BOARD_PATH}/board.json`, jsonData, (err) => {
+		if (err) {
+			console.error('Error saving data:', err);
+		} else {
+			console.log('Data saved from: ', msg);
+		}
+	});
+}
+
 app.whenReady().then(() => {
 	const mainWindow = createWindow()
 	mainWindow.loadFile('src/index.html')
-	// mainWindow.webContents.openDevTools()
 	let config;
 
-	// try to read trellocal config file
-	// if it exists, load it
-	// if it doesn't, create it
 	const configRootPath = path.join(app.getPath('userData'), '.trellocal.config')
 	console.log(configRootPath)
 	if (fs.existsSync(configRootPath)) {
@@ -48,6 +61,10 @@ app.whenReady().then(() => {
 		if (BrowserWindow.getAllWindows().length === 0) {
 			createWindow()
 		}
+	})
+
+	ipcMain.handle('change', async (event, board, msg) => {
+		await saveChanges(board, msg);
 	})
 
 	ipcMain.handle('ping', () => {
@@ -104,6 +121,7 @@ app.whenReady().then(() => {
 
 		boardWindow.loadFile('src/board.html')
 		boardWindow.webContents.openDevTools()
+		BOARD_PATH = path
 		boardWindow.webContents.on('did-finish-load', () => {
 			boardWindow.webContents.send('board:load', path, config)
 		})

@@ -25,5 +25,6 @@ contextBridge.exposeInMainWorld('trellocal', {
 	createDefaultConfig: (path, config) => ipcRenderer.invoke('createDefaultConfig', path, config),
 	retrieveConfig: (path) => ipcRenderer.invoke('retrieveConfig', path),
 	openBoardPage: (path, config) => ipcRenderer.invoke('openBoardPage', path, config),
-	getId: () => ipcRenderer.invoke('getId')
+	getId: () => ipcRenderer.invoke('getId'),
+	saveChanges: (board, msg) => ipcRenderer.invoke('change', board, msg),
 })
