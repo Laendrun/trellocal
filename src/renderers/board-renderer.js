@@ -55,7 +55,6 @@ const updateElementTitle = async (elementId) => {
 	const elementTitle = document.querySelector(`#${elementId} .list-title-text`).textContent;
 	const listId = document.querySelector(`#${elementId}`).parentElement.parentElement.id;
 	const elementIndex = board[listId].elements.findIndex(element => element.id === elementId) || 0;
-
 	board[listId].elements[elementIndex].title = elementTitle;
 	await saveChanges("updateElementTitle");
 }
@@ -174,3 +173,43 @@ newListDiv.addEventListener('click', async () => {
 
 	addList(`list-${listId}`);
 });
+
+// ==================== LOAD BOARD ====================
+
+setTimeout(() => {
+	loadBoard();
+}, 500);
+
+const loadBoard = async () => {
+	const retrievedBoard = await window.trellocal.retrieveBoard();
+	const lists = Object.keys(retrievedBoard);
+	lists.forEach(listId => {
+		const listTemplate = document.querySelector('#list-template');
+		const listContainer = document.querySelector('.lists');
+		const newList = listTemplate.content.cloneNode(true);
+		newList.querySelector('.list-title').textContent = retrievedBoard[listId].title;
+		newList.querySelector('.list').setAttribute('id', listId);
+		listContainer.insertBefore(newList, newListDiv)
+
+		addListEvents(listId);
+		addNewElementEvent(listId);
+		addList(listId);
+		listCount++;
+
+		retrievedBoard[listId].elements.forEach(element => {
+			const elementTemplate = document.querySelector('#list-element-template');
+			const newElement = elementTemplate.content.cloneNode(true);
+			newElement.querySelector('.list-element').setAttribute('id', element.id);
+			newElement.querySelector('.list-title-text').textContent = element.title;
+			const listElements = document.querySelector(`#${listId} .list-elements`);
+			listElements.appendChild(newElement);
+			addElementEvents(element.id);
+			addElement(listId, element.id);
+			elementCount++;
+		})
+	})
+	document.querySelector('#board').toggleAttribute('hidden');
+	const loader = document.querySelector('#loading');
+	loader.hidden = true;
+	loader.classList.remove('main-loader');
+}
