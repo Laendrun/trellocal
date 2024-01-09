@@ -1,22 +1,16 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
+let BOARD = {};
+let BOARD_CONFIG = {};
+
 window.addEventListener('DOMContentLoaded', () => {
 
 })
 
-// window.addEventListener('board:load', (event,) => {
-// 	const { path, config } = event.detail
-// 	console.log("eventListener:", path, config)
-// })
-
-ipcRenderer.on('board:load', (event, path, config) => {
+ipcRenderer.on('board:load', (event, path, config, board) => {
 	console.log("ipcRenderer.on:", path, config)
-	window.dispatchEvent(new CustomEvent('board:load', {
-		detail: {
-			path,
-			config,
-		}
-	}))
+	BOARD_CONFIG = config
+	BOARD = board
 })
 
 contextBridge.exposeInMainWorld('trellocal', {
@@ -27,4 +21,5 @@ contextBridge.exposeInMainWorld('trellocal', {
 	openBoardPage: (path, config) => ipcRenderer.invoke('openBoardPage', path, config),
 	getId: () => ipcRenderer.invoke('getId'),
 	saveChanges: (board, msg) => ipcRenderer.invoke('change', board, msg),
+	retrieveBoard: () => BOARD,
 })

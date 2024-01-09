@@ -30,7 +30,7 @@ const saveChanges = async (board, msg) => {
 	const jsonData = JSON.stringify(board);
 
 	// Save to a file (replace 'path/to/your/file.json' with your desired file path)
-	fs.writeFile(`${BOARD_PATH}/board.json`, jsonData, (err) => {
+	fs.writeFile(BOARD_PATH, jsonData, (err) => {
 		if (err) {
 			console.error('Error saving data:', err);
 		} else {
@@ -121,10 +121,13 @@ app.whenReady().then(() => {
 
 		boardWindow.loadFile('src/board.html')
 		boardWindow.webContents.openDevTools()
-		BOARD_PATH = path
-		boardWindow.webContents.on('did-finish-load', () => {
-			boardWindow.webContents.send('board:load', path, config)
-		})
+		BOARD_PATH = `${path}/board.json`
+		if (fs.existsSync(BOARD_PATH)) {
+			BOARD = JSON.parse(fs.readFileSync(BOARD_PATH, 'utf-8'))
+			boardWindow.webContents.on('did-finish-load', () => {
+				boardWindow.webContents.send('board:load', path, config, BOARD)
+			})
+		}
 
 		mainWindow.close()
 	})

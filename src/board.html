@@ -15,14 +15,33 @@
 		<link type="text/css" rel="stylesheet" href="css/board.css"  media="screen,projection"/>
 	</head>
 	<body>
-		<div id="board">
+		<!-- LOADER -->
+		<div class="main-loader" id="loading">
+			<div class="preloader-wrapper big active">
+				<div class="spinner-layer spinner-blue-only">
+					<div class="circle-clipper left">
+						<div class="circle"></div>
+					</div>
+					<div class="gap-patch">
+						<div class="circle"></div>
+					</div>
+					<div class="circle-clipper right">
+						<div class="circle"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END LOADER-->
+		<!-- BOARD -->
+		<div id="board" hidden>
 			<div class="lists">
 				<div class="list" id="new-list">
 					<p class="new-list-title">Add new list</p>
 				</div>
 			</div>
 		</div>
-
+		<!-- END BOARD -->
+		<!-- TEMPLATES -->
 		<template id="list-template">
 			<div class="list">
 				<p class="list-title" contenteditable="false">Title</p>
@@ -43,7 +62,7 @@
 				</div>
 			</div>
 		</template>
-
+		<!-- END TEMPLATES -->
 		<!--JavaScript at end of body for optimized loading-->
 		<script type="text/javascript" src="js/materialize.js"></script>
 		<script src="./renderers/board-renderer.js"></script>
