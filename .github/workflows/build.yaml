@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-on-mac:
+  publish-on-mac:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@master
@@ -17,10 +17,14 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 18.10
-      - name: See Directory
-        run: ls -la
-  build-on-windows:
-    runs-on: windows-latest
+      - name: Install dependencies
+        run: npm ci
+      - name: Build on MacOS && Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        run: npm run publish
+  publish-on-windows:
+    runs-on: window-latest
     steps:
       - uses: actions/checkout@master
         with:
@@ -28,6 +32,10 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 18.10
-      - name: see directory
-        run: ls
+      - name: Install dependencies
+        run: npm ci
+      - name: Build on Windows && Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        run: npm run publish
 
