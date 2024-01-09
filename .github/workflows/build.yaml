@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_on_mac:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@main
+      with:
+        ref: main
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18.10
+      - name: see directory
+        run: ls -la
+  build_on_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          ref: main
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18.10
+      - name: see directory
+        run: ls -la
