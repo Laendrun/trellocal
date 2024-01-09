@@ -1,30 +1,33 @@
 name: CI
-
+# This workflow represents a set of basic End-to-End tests
 on:
   push:
     branches:
-      - main
+      - 'main'
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  build_on_mac:
+  build-on-mac:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@main
-    with:
-      ref: main
-    - uses: actions/setup-node@master
-      with:
-        node-version: 18.10
-    - name: see directory
-      run: ls -la
-  build_on_windows:
+      - uses: actions/checkout@main
+        with:
+          ref: 'main'
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18.10
+      - name: See Directory
+        run: ls -la
+  build-on-windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@main
-      with:
-        ref: main
-    - uses: actions/setup-node@master
-      with:
-        node-version: 18.10
-    - name: see directory
-      run: ls -la
+      - uses: actions/checkout@main
+        with:
+          ref: 'main'
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18.10
+      - name: see directory
+        run: ls -la
+
