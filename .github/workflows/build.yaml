@@ -24,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
         run: npm run publish
   publish-on-windows:
-    runs-on: window-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
         with:
