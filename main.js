@@ -45,7 +45,6 @@ app.whenReady().then(() => {
 	let config;
 
 	const configRootPath = path.join(app.getPath('userData'), '.trellocal.config')
-	console.log(configRootPath)
 	if (fs.existsSync(configRootPath)) {
 		config = JSON.parse(fs.readFileSync(configRootPath, 'utf-8'))
 	} else {
